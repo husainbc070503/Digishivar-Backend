@@ -11,6 +11,19 @@ const Register = z.object({
     .min(1, { message: "Email is required" })
     .email({ message: "Invalid email address" }),
 
+  phone: z
+    .string({ required_error: "Phone Number is required" })
+    .min(10, {
+      message: "Invalid Phone Number, Phone Number should be of 10 digits",
+    })
+    .max(10, {
+      message: "Invalid Phone Number, Phone Number should be of 10 digits",
+    }),
+
+  address: z
+    .string({ required_error: "Address is required" })
+    .min(1, { message: "Address is required" }),
+
   password: z
     .string({ required_error: "Password is required" })
     .min(8, { message: "Password should be of atleast 8 characters long" })

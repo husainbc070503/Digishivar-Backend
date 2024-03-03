@@ -51,7 +51,7 @@ const registerController = async (req, res) => {
     }
 
     //Save User in database
-    const user = await userModel({
+    const user = await User({
       name,
       email,
       phone,
@@ -96,12 +96,10 @@ const loginController = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
 
     console.log(await user.generateToken());
-    return res
-      .status(200)
-      .json({
-        success: true,
-        user: { user, token: await user.generateToken() },
-      });
+    return res.status(200).json({
+      success: true,
+      user: { user, token: await user.generateToken() },
+    });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
