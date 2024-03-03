@@ -44,17 +44,9 @@ const productController = async (req, res) => {
       });
     }
 
-    //Existing Product
-    // const existingProduct = await userModel.findOne({ vegetable: vegetable });
-    // if (existingUser) {
-    //   return res.status(500).send({
-    //     success: false,
-    //     message: "User already registered with this email",
-    //   });
-    // }
-
     //Save Product in database
     const product = await Product({
+      user: req.user._id,
       vegetable,
       desc,
       quantity,
