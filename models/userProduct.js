@@ -38,6 +38,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add image"],
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
   { timestamps: true }
 );

@@ -6,7 +6,6 @@ const router = Router();
 
 router.get("/prices", ValidateUser, isFarmer, async (req, res) => {
   try {
-    console.log(req.user);
     const prices = await ProductsPrices.find();
     res.status(200).json({ success: true, prices });
   } catch (error) {
