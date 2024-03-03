@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const ProductSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
     vegetable: {
       type: String,
       required: [true, "Please add vegetable name"],
