@@ -15,6 +15,14 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+     phone: {
+      type: Number,
+      required: [true, "Please add phone number"],
+    },
+    address: {
+      type: String,
+      required: [true, "Please add address"],
+    },
     password: {
       type: String,
       required: [true, "Please add password"],
@@ -24,7 +32,7 @@ const UserSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ['customer', 'farmer', 'admin'],
-      default: "user",
+      default: "customer",
     },
   },
 
