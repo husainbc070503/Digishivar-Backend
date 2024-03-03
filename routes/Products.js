@@ -1,12 +1,12 @@
 import { Router } from "express";
-import productController from "../controllers/productController.js";
 import ValidateUser from "../middlewares/ValidateUser.js";
 import isFarmer from "../middlewares/isFarmer.js";
 import {
+  productController,
   deleteProduct,
   editProduct,
   getProduct,
-} from "../controllers/rudProduct.js";
+} from "../controllers/crudProduct.js";
 
 //router object
 const router = Router();
