@@ -1,16 +1,9 @@
 import { Router } from "express";
-import ProductsPrices from "../models/ProductsPrices.js";
+import ProductsPrices from "../controllers/productPrices.js";
 import ValidateUser from "../middlewares/ValidateUser.js";
 import isFarmer from "../middlewares/isFarmer.js";
 const router = Router();
 
-router.get("/prices", ValidateUser, isFarmer, async (req, res) => {
-  try {
-    const prices = await ProductsPrices.find();
-    res.status(200).json({ success: true, prices });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-});
+router.get("/prices", ValidateUser, isFarmer, ProductsPrices);
 
 export default router;
