@@ -1,11 +1,7 @@
 import { Router } from "express";
 import ValidateInput from "../middlewares/ValidateInput.js";
 import { Login, Register } from "../validators/AuthValidators.js";
-
-const {
-  registerController,
-  loginController,
-} = require("../controllers/userController");
+import { loginController, registerController } from "../controllers/userController.js";
 
 //router object
 const router = Router();
