@@ -90,7 +90,7 @@ const loginController = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Role not specified" });
     }
-    if (await user.validatePassword(password))
+    if (!(await user.validatePassword(password)))
       return res
         .status(400)
         .json({ success: false, message: "Invalid credentials" });
