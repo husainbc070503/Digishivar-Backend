@@ -7,7 +7,7 @@ import User from "../models/userModel.js";
 //Register
 const registerController = async (req, res) => {
   try {
-    const { name, email, phone, address, password } = req.body;
+    const { name, email, phone, address, password, role } = req.body;
 
     //Validation
     if (!name) {
@@ -57,6 +57,7 @@ const registerController = async (req, res) => {
       phone,
       address,
       password,
+      role,
     }).save();
 
     //Success
@@ -76,7 +77,21 @@ const registerController = async (req, res) => {
 
 // login
 const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    var user = await User.findOne({ email });
+    if (!user)
+      return res.status(400).json({ success: false, message: 'User not registered' });
 
+    if (await user.validatePassword(password))
+      return res.status(400).json({ success: false, message: 'Invalid credentials' });
+
+    console.log(await user.generateToken());
+    return res.status(200).json({ success: true, user: { user, token: await user.generateToken() } })
+
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
 }
 
 export { registerController, loginController };
