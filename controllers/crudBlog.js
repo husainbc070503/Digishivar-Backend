@@ -2,8 +2,8 @@ import Blogs from "../models/Blogs.js";
 
 const createBlog = async (req, res) => {
   try {
-    var blog = await Blogs.create({ ...req.body });
-    blog = await Blogs.findById(blog._id).populate("user");
+    var blog = await Blogs.create({ ...req.body, user: req.user._id });
+    blog = await Blogs.findById(blog._id).populate("user", "-password");
     res.status(200).json({ success: true, blog });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
