@@ -1,8 +1,10 @@
 import { Router } from "express";
 import ProductsPrices from "../models/ProductsPrices.js";
+import ValidateUser from "../middlewares/ValidateUser.js";
+import isFarmer from "../middlewares/isFarmer.js";
 const router = Router();
 
-router.get('/prices', async (req, res) => {
+router.get('/prices', ValidateUser, isFarmer, async (req, res) => {
     try {
         const prices = await ProductsPrices.find();
         res.status(200).json({ success: true, prices });
