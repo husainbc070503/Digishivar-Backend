@@ -14,4 +14,4 @@ router.post("/register", ValidateInput(Register), registerController);
 //Login - Type: POST
 router.post("/login", ValidateInput(Login), loginController);
 
-module.exports = router;
+export default router;
