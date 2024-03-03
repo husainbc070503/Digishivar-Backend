@@ -28,15 +28,6 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add price"],
     },
-    address: {
-      type: String,
-      required: true,
-    },
-
-    phoneNo: {
-      type: String,
-      required: true,
-    },
     transportationRequired: {
       type: Boolean,
       required: true,
@@ -45,10 +36,6 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["online", "offline"],
       default: "online",
-    },
-    role: {
-      type: String,
-      default: "user",
     },
   },
   { timestamps: true }

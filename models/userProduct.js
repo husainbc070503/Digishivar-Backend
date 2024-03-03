@@ -18,8 +18,8 @@ const ProductSchema = new mongoose.Schema(
       required: [true, "Please select quantity type"],
     },
     quantity: {
-      type: String,
-      required: [true, "Please select quantity"],
+      type: Number,
+      required: [true, "Please enter quantity"],
     },
     quality: {
       type: String,
@@ -27,16 +27,16 @@ const ProductSchema = new mongoose.Schema(
       required: [true, "Please specify quality"],
     },
     price: {
-      type: String,
+      type: Number,
       required: [true, "Please add price"],
     },
     img: {
       type: String,
       required: [true, "Please add image"],
     },
-    role: {
-      type: String,
-      default: "user",
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
