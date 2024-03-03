@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectToDB from "./database/db_conn.js";
 import Prices from "./routes/ProductsPrices.js";
+import ErrorHandler from "./handlers/ErrorHandler.js";
 
 dotenv.config();
 const app = express();
@@ -15,4 +16,5 @@ app.use(express.json());
 app.get('/', (req, res) => res.send("Hello World"));
 app.use('/api/price', Prices);
 
+app.use(ErrorHandler);
 app.listen(port, () => console.log(`Server running on port ${port}`));
