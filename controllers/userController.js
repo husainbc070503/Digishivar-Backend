@@ -78,20 +78,33 @@ const registerController = async (req, res) => {
 // login
 const loginController = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     var user = await User.findOne({ email });
     if (!user)
-      return res.status(400).json({ success: false, message: 'User not registered' });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not registered" });
 
+    if (role != user.role) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Role not specified" });
+    }
     if (await user.validatePassword(password))
-      return res.status(400).json({ success: false, message: 'Invalid credentials' });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid credentials" });
 
     console.log(await user.generateToken());
-    return res.status(200).json({ success: true, user: { user, token: await user.generateToken() } })
-
+    return res
+      .status(200)
+      .json({
+        success: true,
+        user: { user, token: await user.generateToken() },
+      });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
-}
+};
 
 export { registerController, loginController };
