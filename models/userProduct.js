@@ -27,7 +27,7 @@ const ProductSchema = new mongoose.Schema(
     },
     quality: {
       type: String,
-      enum: ["High", "Moderate"],
+      enum: ["high", "moderate"],
       required: [true, "Please specify quality"],
     },
     price: {
@@ -36,7 +36,7 @@ const ProductSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['leafy vegetable', 'rooted vegetable', 'herbs'],
+      enum: ["leafy vegetable", "rooted vegetable", "herbs"],
       default: 'rooted vegetable'
     },
     img: {
@@ -47,6 +47,20 @@ const ProductSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
+    rating: {
+      type: Number
+    },
+    reviews: [{
+      review: {
+        type: String,
+        required: true
+      },
+
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      }
+    }]
   },
   { timestamps: true }
 );

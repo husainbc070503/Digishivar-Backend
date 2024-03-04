@@ -12,11 +12,20 @@ const createBlog = async (req, res) => {
 
 const updateBlog = async (req, res) => {
   try {
-    const blog = await Blogs.findByIdAndUpdate(
+    var blog = await Blogs.findByIdAndUpdate(
       req.params.id,
       { ...req.body },
       { new: true }
-    ).populate("user");
+    ).populate('user', '-password');
+
+    blog = await Blogs.populate(blog, {
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: '-password'
+      }
+    })
+
     res.status(200).json({ success: true, blog });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -34,11 +43,105 @@ const deleteBlog = async (req, res) => {
 
 const getBlog = async (req, res) => {
   try {
-    const blogs = await Blogs.find().populate("user");
+    var blogs = await Blogs.find()
+      .populate('user', '-password');
+
+    blogs = await Blogs.populate(blogs, {
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: '-password'
+      }
+    })
+
     res.status(200).json({ success: true, blogs });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
 };
 
-export { createBlog, updateBlog, deleteBlog, getBlog };
+const likeBlog = async (req, res) => {
+  try {
+    var blog = await Blogs.findByIdAndUpdate(req.params.id, { $push: { likes: req.user._id } }, { new: true })
+      .populate('likes')
+      .populate('user', '-password');
+
+    blog = await Blogs.populate(blog, {
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: '-password'
+      }
+    });
+
+    res.status(200).json({ success: true, blog });
+
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+const unlikeBlog = async (req, res) => {
+  try {
+    var blog = await Blogs.findByIdAndUpdate(req.params.id, { $pull: { likes: req.user._id } }, { new: true })
+      .populate('likes')
+      .populate('user', '-password');
+
+    blog = await Blogs.populate(blog, {
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: '-password'
+      }
+    });
+
+    res.status(200).json({ success: true, blog });
+
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+const addComment = async (req, res) => {
+  try {
+    var blog = await Blogs.findByIdAndUpdate(req.params.id, { $pull: { comments: { comment: req.body.comment, user: req.user._id } } }, { new: true })
+      .populate('likes')
+      .populate('user', '-password');
+
+    blog = await Blogs.populate(blog, {
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: '-password'
+      }
+    });
+
+    res.status(200).json({ success: true, blog });
+
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+const deleteComment = async (req, res) => {
+  try {
+    var blog = await Blogs.findByIdAndUpdate(req.params.id, { $pull: { comments: { comment: req.body.comment, user: req.user._id } } }, { new: true })
+      .populate('likes')
+      .populate('user', '-password');
+
+    blog = await Blogs.populate(blog, {
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: '-password'
+      }
+    });
+
+    res.status(200).json({ success: true, blog });
+
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+export { createBlog, updateBlog, deleteBlog, getBlog, likeBlog, unlikeBlog, addComment, deleteComment };
