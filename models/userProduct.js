@@ -34,6 +34,11 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please add price"],
     },
+    category: {
+      type: String,
+      enum: ['leafy vegetable', 'rooted vegetable', 'herbs'],
+      default: 'rooted vegetable'
+    },
     img: {
       type: String,
       required: [true, "Please add image"],

@@ -2,7 +2,7 @@ import Product from "../models/userProduct.js";
 
 const productController = async (req, res) => {
   try {
-    const { vegetable, desc, quantity_type, quantity, quality, price, img } =
+    const { vegetable, desc, quantity_type, quantity, quality, price, img, category } =
       req.body;
 
     //Validation
@@ -34,6 +34,12 @@ const productController = async (req, res) => {
       return res.status(400).send({
         success: false,
         message: "Price is required",
+      });
+    }
+    if (!category) {
+      return res.status(400).send({
+        success: false,
+        message: "Category is required",
       });
     }
     if (!img) {
