@@ -105,4 +105,13 @@ const loginController = async (req, res) => {
   }
 };
 
-export { registerController, loginController };
+const updateController = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.user._id, { ...req.body }, { new: true });
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+export { registerController, loginController, updateController };
