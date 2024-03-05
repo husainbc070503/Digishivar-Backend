@@ -54,10 +54,12 @@ const productController = async (req, res) => {
       user: req.user._id,
       vegetable,
       desc,
+      quantity_type,
       quantity,
       quality,
       price,
       img,
+      category,
     }).save();
 
     //Success
