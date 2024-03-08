@@ -59,6 +59,24 @@ const getBlog = async (req, res) => {
   }
 };
 
+const readBlog = async (req, res) => {
+  try {
+    var blogs = await Blogs.populate("user", "-password");
+
+    blogs = await Blogs.populate(blogs, {
+      path: "comments",
+      populate: {
+        path: "user",
+        select: "-password",
+      },
+    });
+
+    res.status(200).json({ success: true, blogs });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 const likeBlog = async (req, res) => {
   try {
     var blog = await Blogs.findByIdAndUpdate(
@@ -168,4 +186,5 @@ export {
   unlikeBlog,
   addComment,
   deleteComment,
+  readBlog,
 };

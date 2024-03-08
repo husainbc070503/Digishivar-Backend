@@ -10,6 +10,7 @@ import {
   giveRating,
   addReview,
   deleteReview,
+  cartProduct,
 } from "../controllers/crudProduct.js";
 
 const router = Router();
@@ -22,10 +23,12 @@ router.delete("/deleteProduct/:id", ValidateUser, isFarmer, deleteProduct);
 
 router.get("/products", ValidateUser, getProducts);
 
-router.put('/rate/:id', ValidateUser, isCustomer, giveRating);
+router.get("/cart", ValidateUser, isCustomer, cartProduct);
 
-router.put('/addReview/:id', ValidateUser, isCustomer, addReview);
+router.put("/rate/:id", ValidateUser, isCustomer, giveRating);
 
-router.put('/deleteReview/:id', ValidateUser, isCustomer, deleteReview);
+router.put("/addReview/:id", ValidateUser, isCustomer, addReview);
+
+router.put("/deleteReview/:id", ValidateUser, isCustomer, deleteReview);
 
 export default router;
