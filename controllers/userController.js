@@ -50,6 +50,14 @@ const registerController = async (req, res) => {
       });
     }
 
+    const isAdmin = await User.findOne({ role: "admin" });
+    if (isAdmin) {
+      return res.status(400).json({
+        success: false,
+        message: 'Only one admin is allowed to register. Before you someone has registered'
+      })
+    }
+
     //Save User in database
     const user = await User({
       name,
