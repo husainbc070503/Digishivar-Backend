@@ -2,6 +2,8 @@ import { Router } from "express";
 import nodemailer from "nodemailer";
 import Contact from "../models/Contact.js";
 import dotenv from "dotenv";
+import ValidateUser from "../middlewares/ValidateUser.js";
+import isAdmin from "../middlewares/isAdmin.js";
 
 dotenv.config();
 const router = Router();
@@ -62,7 +64,7 @@ router.post('/contact', async (req, res) => {
     }
 });
 
-router.get('/contacts', FetchUser, async (req, res) => {
+router.get('/contacts', ValidateUser, isAdmin, async (req, res) => {
     try {
         const contacts = await Contact.find();
         res.status(200).json({ success: true, contacts });
@@ -71,7 +73,7 @@ router.get('/contacts', FetchUser, async (req, res) => {
     }
 });
 
-router.delete('/reply/:id', FetchUser, async (req, res) => {
+router.delete('/reply/:id', ValidateUser, isAdmin, async (req, res) => {
     try {
         const { email, reply, message } = req.body;
         sendReply(email, reply, message);
@@ -82,4 +84,4 @@ router.delete('/reply/:id', FetchUser, async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
