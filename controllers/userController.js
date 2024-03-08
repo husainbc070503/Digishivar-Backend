@@ -50,6 +50,14 @@ const registerController = async (req, res) => {
       });
     }
 
+    const isAdmin = await User.findOne({ role: "admin" });
+    if (isAdmin) {
+      return res.status(400).json({
+        success: false,
+        message: 'Only one admin is allowed to register. Before you someone has registered'
+      })
+    }
+
     //Save User in database
     const user = await User({
       name,
@@ -114,4 +122,13 @@ const updateController = async (req, res) => {
   }
 }
 
-export { registerController, loginController, updateController };
+const getUsersController = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({ success: true, users });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+export { registerController, loginController, updateController, getUsersController };
