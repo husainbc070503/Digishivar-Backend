@@ -23,7 +23,7 @@ const sendReply = async (email, reply, message) => {
     const options = {
         from: process.env.USER,
         to: email,
-        subject: 'Project Managament App - Contact reply from administrator',
+        subject: 'Digishivar - Contact reply from administrator',
         html: `<p>Admin has reviewed your message and reverted with following message: </p><h4>Your question - ${message}</h4><h4>Admin Reply - ${reply}</h4>`
     }
 
