@@ -2,8 +2,16 @@ import Product from "../models/userProduct.js";
 
 const productController = async (req, res) => {
   try {
-    const { vegetable, desc, quantity_type, quantity, quality, price, img, category } =
-      req.body;
+    const {
+      vegetable,
+      desc,
+      quantity_type,
+      quantity,
+      quality,
+      price,
+      img,
+      category,
+    } = req.body;
 
     //Validation
     if (!vegetable) {
@@ -64,7 +72,6 @@ const productController = async (req, res) => {
 
     //Success
     res.status(200).json({ success: true, product });
-
   } catch (error) {
     res.status(400).json({ success: true, message: error.message });
   }
@@ -79,11 +86,11 @@ const editProduct = async (req, res) => {
     ).populate("user", "-password");
 
     product = await Product.populate(product, {
-      path: 'reviews',
+      path: "reviews",
       populate: {
-        path: 'user',
-        select: '-password'
-      }
+        path: "user",
+        select: "-password",
+      },
     });
 
     res.status(200).json({ success: true, product });
@@ -103,19 +110,17 @@ const deleteProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    var products = await Product.find()
-      .populate("user", "-password");
+    var products = await Product.find().populate("user", "-password");
 
     products = await Product.populate(products, {
-      path: 'reviews',
+      path: "reviews",
       populate: {
-        path: 'user',
-        select: '-password'
-      }
+        path: "user",
+        select: "-password",
+      },
     });
 
     res.status(200).json({ success: true, products });
-
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -128,62 +133,76 @@ const giveRating = async (req, res) => {
     const prevRating = pro.rating;
 
     const currRating = ((rating + prevRating) / 2).toFixed(1);
-    var product = await Product.findByIdAndUpdate(req.params.id, { rating: currRating }, { new: true })
-      .populate('user', '-password');
+    var product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { rating: currRating },
+      { new: true }
+    ).populate("user", "-password");
 
     product = await Product.populate(product, {
-      path: 'reviews',
+      path: "reviews",
       populate: {
-        path: 'user',
-        select: '-password'
-      }
+        path: "user",
+        select: "-password",
+      },
     });
 
     res.status(200).json({ success: true, product });
-
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
-}
+};
 
 const addReview = async (req, res) => {
   try {
-    var product = await Product.findByIdAndUpdate(req.params.id, { $push: { reviews: { review: req.body.review, user: req.user._id } } }, { new: true })
-      .populate('user', '-password');
+    var product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { $push: { reviews: { review: req.body.review, user: req.user._id } } },
+      { new: true }
+    ).populate("user", "-password");
 
     product = await Product.populate(product, {
-      path: 'reviews',
+      path: "reviews",
       populate: {
-        path: 'user',
-        select: '-password'
-      }
+        path: "user",
+        select: "-password",
+      },
     });
 
     res.status(200).json({ success: true, product });
-
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
-}
+};
 
 const deleteReview = async (req, res) => {
   try {
-    var product = await Product.findByIdAndUpdate(req.params.id, { $pull: { reviews: { review: req.body.review, user: req.user._id } } }, { new: true })
-      .populate('user', '-password');
+    var product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { $pull: { reviews: { review: req.body.review, user: req.user._id } } },
+      { new: true }
+    ).populate("user", "-password");
 
     product = await Product.populate(product, {
-      path: 'reviews',
+      path: "reviews",
       populate: {
-        path: 'user',
-        select: '-password'
-      }
+        path: "user",
+        select: "-password",
+      },
     });
 
     res.status(200).json({ success: true, product });
-
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
-}
+};
 
-export { productController, editProduct, deleteProduct, getProducts, giveRating, addReview, deleteReview };
+export {
+  productController,
+  editProduct,
+  deleteProduct,
+  getProducts,
+  giveRating,
+  addReview,
+  deleteReview,
+};

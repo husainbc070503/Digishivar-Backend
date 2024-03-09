@@ -11,6 +11,7 @@ import {
   unlikeBlog,
   addComment,
   deleteComment,
+  readBlog,
 } from "../controllers/crudBlog.js";
 
 const router = Router();
@@ -23,12 +24,14 @@ router.delete("/deleteBlog/:id", ValidateUser, isFarmer, deleteBlog);
 
 router.get("/blogs", ValidateUser, getBlog);
 
-router.put('/likeBlog/:id', ValidateUser, isCustomer, likeBlog)
+router.get("/readblogs", ValidateUser, isCustomer, readBlog);
 
-router.put('/unlikeBlog/:id', ValidateUser, isCustomer, unlikeBlog)
+router.put("/likeBlog/:id", ValidateUser, isCustomer, likeBlog);
 
-router.put('/addComment/:id', ValidateUser, isCustomer, addComment)
+router.put("/unlikeBlog/:id", ValidateUser, isCustomer, unlikeBlog);
 
-router.put('/deleteComment/:id', ValidateUser, isCustomer, deleteComment)
+router.put("/addComment/:id", ValidateUser, isCustomer, addComment);
+
+router.put("/deleteComment/:id", ValidateUser, isCustomer, deleteComment);
 
 export default router;
