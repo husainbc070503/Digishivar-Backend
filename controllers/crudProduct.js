@@ -77,18 +77,6 @@ const productController = async (req, res) => {
   }
 };
 
-const cartProduct = async (req, res) => {
-  try {
-    // Retrieve cart products from local storage
-    const cartProducts = JSON.parse(localStorage.getItem("cartProducts")) || [];
-
-    // Send the cart products to the client
-    res.status(200).json({ success: true, products: cartProducts });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
-
 const editProduct = async (req, res) => {
   try {
     var product = await Product.findByIdAndUpdate(
@@ -217,5 +205,4 @@ export {
   giveRating,
   addReview,
   deleteReview,
-  cartProduct,
 };
