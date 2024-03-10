@@ -20,6 +20,7 @@ const port = process.env.PORT;
 connectToDB();
 app.use(cors());
 app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 export const instance = new Razorpay({
   key_id: process.env.RAZORPAY_API_KEY,
@@ -36,6 +37,9 @@ app.use("/api/price", Prices);
 app.use("/api/wishlist", Wishlist);
 app.use("/api/contact", Contact);
 app.use("/api/payment", PaymentRoutes);
+app.get("/api/getkey", (req, res) =>
+  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
+);
 
 app.use(ErrorHandler);
 app.listen(port, () => console.log(`Server running on port ${port}`));
