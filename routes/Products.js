@@ -10,6 +10,7 @@ import {
   giveRating,
   addReview,
   deleteReview,
+  readReview,
 } from "../controllers/crudProduct.js";
 
 const router = Router();
@@ -25,6 +26,8 @@ router.get("/products", ValidateUser, getProducts);
 router.put("/rate/:id", ValidateUser, isCustomer, giveRating);
 
 router.put("/addReview/:id", ValidateUser, isCustomer, addReview);
+
+router.get("/readReview/:id", ValidateUser, isCustomer, readReview);
 
 router.put("/deleteReview/:id", ValidateUser, isCustomer, deleteReview);
 

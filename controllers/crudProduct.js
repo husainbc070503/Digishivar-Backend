@@ -175,6 +175,31 @@ const addReview = async (req, res) => {
   }
 };
 
+const readReview = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId)
+      .populate("user", "-password")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "user",
+          select: "-password",
+        },
+      });
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    res.status(200).json({ success: true, product });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 const deleteReview = async (req, res) => {
   try {
     var product = await Product.findByIdAndUpdate(
@@ -205,4 +230,5 @@ export {
   giveRating,
   addReview,
   deleteReview,
+  readReview,
 };
