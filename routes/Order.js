@@ -7,7 +7,7 @@ router.post('/placeOrder', async (req, res) => {
         var order = await Order.create({ ...req.body, user: req.user });
         order = await Order.findById(order._id)
             .populate('user')
-            .populate('product');
+            .populate('product.pro')
 
         res.status(200).json({ success: true, order });
 
@@ -20,7 +20,7 @@ router.get('/orders', async (req, res) => {
     try {
         const orders = await Order.find()
             .populate('user')
-            .populate('product');
+            .populate('product.pro');
 
         res.status(200).json({ success: true, orders });
 

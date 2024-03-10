@@ -26,6 +26,6 @@ router.put("/rate/:id", ValidateUser, isCustomer, giveRating);
 
 router.put("/addReview/:id", ValidateUser, isCustomer, addReview);
 
-router.put("/deleteReview/:id", ValidateUser, isCustomer, deleteReview);
+router.put("/deleteReview/:id/:rid", ValidateUser, isCustomer, deleteReview);
 
 export default router;

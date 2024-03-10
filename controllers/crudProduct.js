@@ -179,7 +179,7 @@ const deleteReview = async (req, res) => {
   try {
     var product = await Product.findByIdAndUpdate(
       req.params.id,
-      { $pull: { reviews: { review: req.body.review, user: req.user._id } } },
+      { $pull: { reviews: { _id: req.params.rid, user: req.user._id } } },
       { new: true }
     ).populate("user", "-password");
 
