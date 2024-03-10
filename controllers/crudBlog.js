@@ -16,7 +16,9 @@ const updateBlog = async (req, res) => {
       req.params.id,
       { ...req.body },
       { new: true }
-    ).populate("user", "-password");
+    )
+      .populate('likes')
+      .populate("user", "-password");
 
     blog = await Blogs.populate(blog, {
       path: "comments",
@@ -43,25 +45,9 @@ const deleteBlog = async (req, res) => {
 
 const getBlog = async (req, res) => {
   try {
-    var blogs = await Blogs.find().populate("user", "-password");
-
-    blogs = await Blogs.populate(blogs, {
-      path: "comments",
-      populate: {
-        path: "user",
-        select: "-password",
-      },
-    });
-
-    res.status(200).json({ success: true, blogs });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
-
-const readBlog = async (req, res) => {
-  try {
-    var blogs = await Blogs.populate("user", "-password");
+    var blogs = await Blogs.find()
+      .populate('likes')
+      .populate("user", "-password");
 
     blogs = await Blogs.populate(blogs, {
       path: "comments",
@@ -156,7 +142,7 @@ const deleteComment = async (req, res) => {
     var blog = await Blogs.findByIdAndUpdate(
       req.params.id,
       {
-        $pull: { comments: { comment: req.body.comment, user: req.user._id } },
+        $pull: { comments: { _id: req.params.cid, user: req.user._id } },
       },
       { new: true }
     )
@@ -186,5 +172,4 @@ export {
   unlikeBlog,
   addComment,
   deleteComment,
-  readBlog,
 };

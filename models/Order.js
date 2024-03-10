@@ -7,19 +7,21 @@ const orderSchema = new mongoose.Schema(
       ref: "user",
     },
     product: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "product",
+      pro: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "product",
+      },
+      userQuantityType: {
+        type: String,
+        enum: ["quintal", "kg"],
+        default: "kg",
+        required: [true, "Please select quantity type"],
+      },
+      userQuantity: {
+        type: String,
+        required: [true, "Please select quantity"],
+      }
     }],
-    userQuantityType: {
-      type: String,
-      enum: ["quintal", "kg"],
-      default: "kg",
-      required: [true, "Please select quantity type"],
-    },
-    userQuantity: {
-      type: String,
-      required: [true, "Please select quantity"],
-    },
     totalPrice: {
       type: String,
       required: [true, "Please add price"],
