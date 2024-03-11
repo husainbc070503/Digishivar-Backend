@@ -6,28 +6,31 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
-    product: [{
-      pro: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "product",
+    products: [
+      {
+        pro: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "product",
+        },
+        userQuantityType: {
+          type: String,
+          enum: ["quintal", "kg"],
+          default: "kg",
+          required: [true, "Please select quantity type"],
+        },
+        userQuantity: {
+          type: String,
+          required: [true, "Please select quantity"],
+        },
       },
-      userQuantityType: {
-        type: String,
-        enum: ["quintal", "kg"],
-        default: "kg",
-        required: [true, "Please select quantity type"],
-      },
-      userQuantity: {
-        type: String,
-        required: [true, "Please select quantity"],
-      }
-    }],
+    ],
     totalPrice: {
-      type: String,
+      type: Number,
       required: [true, "Please add price"],
     },
     transportationRequired: {
-      type: Boolean,
+      type: String,
+      enum: ["pick up", "delivery"],
       required: true,
     },
     paymentMode: {
@@ -35,6 +38,7 @@ const orderSchema = new mongoose.Schema(
       enum: ["online", "offline"],
       default: "online",
     },
+    paymentStatus: Boolean,
   },
   { timestamps: true }
 );
