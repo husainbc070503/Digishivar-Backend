@@ -50,4 +50,26 @@ const Login = z.object({
     .min(1, { message: "Role is required" }),
 });
 
-export { Register, Login };
+const SendEmail = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .min(1, { message: "Email is required" })
+    .email({ message: "Invalid email address" })
+});
+
+const UpdatePassword = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .min(1, { message: "Email is required" })
+    .email({ message: "Invalid email address" }),
+
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(8, { message: "Password should be of atleast 8 characters long" })
+    .max(64, { message: "Password length should not exceed 64" }),
+
+  otp: z
+    .number()
+})
+
+export { Register, Login, SendEmail, UpdatePassword };

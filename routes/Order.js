@@ -3,7 +3,42 @@ import Order from "../models/Order.js";
 import ValidateUser from "../middlewares/ValidateUser.js";
 import isCustomer from "../middlewares/isCustomer.js";
 import isFarmer from "../middlewares/isFarmer.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 const router = Router();
+
+const sendOrderPlacedMail = async (name, email) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    port: 587,
+    secure: true,
+    auth: {
+      user: process.env.USER,
+      pass: process.env.PASSWORD
+    },
+    tls: { rejectUnauthorized: false }
+  });
+
+  const options = {
+    from: process.env.USER,
+    to: email,
+    subject: 'Digishivar - Order Placed',
+    html: `<h4>Dear, ${name} <br> Thank you for choosing Digishivar. <br> Your order has been placed. Once farmer check the details of the order, he/she will get back to you soon <br> Thank you</h4>`
+  }
+
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        console.log("Emailed successfully");
+        resolve(info);
+      }
+    })
+  })
+}
 
 router.post("/placeOrder", ValidateUser, isCustomer, async (req, res) => {
   try {
@@ -13,6 +48,7 @@ router.post("/placeOrder", ValidateUser, isCustomer, async (req, res) => {
       .populate('farmer')
       .populate("products.pro");
 
+    sendOrderPlacedMail(req.user.name, req.user.email)
     res.status(200).json({ success: true, order });
 
   } catch (error) {
