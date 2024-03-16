@@ -22,7 +22,7 @@ const sendOtpMail = async (name, email, otp) => {
     from: process.env.USER,
     to: email,
     subject: 'Digishivar - OTP for forgot password',
-    html: `<h4>Dear, ${name} <br> Thank you for choosing Digishivar. <br> To ensure the security of your account, please use the following One-Time Password (OTP) for athentication: <br>
+    html: `<h4>Dear, ${name} <br> Thank you for choosing Digishivar. <br> To ensure the security of your account, please use the following One-Time Password (OTP) for updating password: <br>
     <h2> OTP: ${otp} </h2> <br> Thank you</h4>`
   }
 
