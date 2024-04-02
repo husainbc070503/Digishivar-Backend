@@ -4,6 +4,7 @@ import ValidateUser from "../middlewares/ValidateUser.js";
 import isCustomer from "../middlewares/isCustomer.js";
 import isFarmer from "../middlewares/isFarmer.js";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 const router = Router();
